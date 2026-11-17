@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../../site.config.mjs';
+const { autor, email, anschrift } = site;
+---
+<Base title="Datenschutz" description={`Datenschutzerklärung von ${site.name}`} noindex>
+  <div class="wrap prose lese seite">
+    <h1 class="h-l">Datenschutzerklärung</h1>
+    <p>Stand: November 2026</p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>
+      {autor}<br />{anschrift.strasse}<br />{anschrift.plz} {anschrift.ort}<br />
+      E-Mail: <a href={`mailto:${email}`}>{email}</a>
+    </p>
+
+    <h2>2. Kurz zusammengefasst</h2>
+    <p>
+      Diese Website setzt keine Cookies und bindet keine Inhalte von Drittanbietern ein. Für eine anonyme
+      Reichweitenmessung nutze ich Cloudflare Web Analytics, das ohne Cookies und ohne Wiedererkennung über mehrere Besuche
+      hinweg arbeitet (siehe Abschnitt 6). Personenbezogene Daten werden nur verarbeitet, soweit das für den Betrieb der
+      Website technisch nötig ist oder du mir eine E-Mail schreibst.
+    </p>
+
+    <h2>3. Hosting und Server-Logfiles</h2>
+    <p>
+      Die Website wird bei Cloudflare Pages gehostet (Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA).
+      Beim Aufruf der Website verarbeitet Cloudflare technisch notwendige Daten, insbesondere IP-Adresse, Datum und
+      Uhrzeit des Zugriffs, aufgerufene Seite, Referrer-URL sowie Browser- und Betriebssystemangaben. Das ist nötig, um
+      die Website auszuliefern und vor Angriffen zu schützen.
+    </p>
+    <p>
+      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt in einer sicheren und stabilen
+      Bereitstellung der Website. Mit Cloudflare besteht ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO). Dabei
+      können Daten in die USA übermittelt werden. Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert, auf
+      dessen Grundlage ein angemessenes Datenschutzniveau besteht (Art. 45 DSGVO). Weitere Informationen:
+      <a href="https://www.cloudflare.com/de-de/privacypolicy/" rel="noopener">Datenschutzerklärung von Cloudflare</a>.
+    </p>
+
+    <h2>4. Kontakt per E-Mail</h2>
+    <p>
+      Wenn du mir eine E-Mail schreibst, verarbeite ich deine E-Mail-Adresse, deinen Namen (falls angegeben) und den Inhalt
+      deiner Nachricht, um dein Anliegen zu bearbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+      Interesse an der Beantwortung von Anfragen). Ich lösche die Daten, sobald sie für die Bearbeitung nicht mehr nötig
+      sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+    </p>
+
+    <h2>5. Schriftarten</h2>
+    <p>Alle Schriftarten werden lokal von dieser Website geladen. Es besteht keine Verbindung zu Google Fonts oder anderen externen Schriftdiensten.</p>
+
+    <h2 id="analyse">6. Reichweitenmessung mit Cloudflare Web Analytics</h2>
+    <p>
+      Um zu sehen, welche Seiten gelesen werden, nutze ich Cloudflare Web Analytics (Cloudflare, Inc., Anschrift siehe
+      Abschnitt 3). Dazu lädt deine Seite ein kleines Skript von Cloudflare, das beim Aufruf u. a. die aufgerufene Seite,
+      die verweisende Seite (Referrer), Browser- und Gerätetyp, Land sowie Ladezeiten an Cloudflare übermittelt. Dabei
+      wird deine IP-Adresse technisch verarbeitet, aber nach Angaben von Cloudflare nicht für die Statistik gespeichert.
+      Es werden keine Cookies gesetzt, kein Fingerprinting betrieben und keine Profile über mehrere Besuche oder Websites
+      hinweg gebildet; ich sehe nur zusammengefasste Zahlen.
+    </p>
+    <p>
+      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt darin, zu erkennen, welche Inhalte
+      ankommen, und die Website zu verbessern. Für die Übermittlung in die USA gilt das in Abschnitt 3 Gesagte (EU-US Data
+      Privacy Framework). Du kannst der Messung widersprechen, etwa indem du einen Inhaltsblocker nutzt.
+    </p>
+
+    <h2>7. Externe Links</h2>
+    <p>
+      Seiten verlinken auf Quellen, Labels und Plattformen. Eine Verbindung zu diesen Anbietern entsteht erst, wenn du einem
+      Link folgst. Ab dann gilt die Datenschutzerklärung des jeweiligen Anbieters.
+    </p>
+
+    <h2>8. Suchmaschinen-Benachrichtigung (IndexNow)</h2>
+    <p>
+      Wenn neue Seiten erscheinen, werden deren Adressen über das IndexNow-Protokoll an Suchmaschinen gemeldet. Dabei
+      werden ausschließlich URLs dieser Website übermittelt, keine Daten über Besucherinnen und Besucher.
+    </p>
+
+    <h2>9. Deine Rechte</h2>
+    <p>Du hast gegenüber mir folgende Rechte hinsichtlich deiner personenbezogenen Daten:</p>
+    <ul>
+      <li>Auskunft (Art. 15 DSGVO)</li>
+      <li>Berichtigung (Art. 16 DSGVO)</li>
+      <li>Löschung (Art. 17 DSGVO)</li>
+      <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Widerspruch gegen Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (Art. 21 DSGVO)</li>
+    </ul>
+    <p>Für alle Anliegen genügt eine E-Mail an <a href={`mailto:${email}`}>{email}</a>.</p>
+
+    <h2>10. Beschwerderecht</h2>
+    <p>
+      Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Für mich zuständig ist die
+      Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen (LDI NRW), Kavalleriestraße 2–4,
+      40213 Düsseldorf, <a href="https://www.ldi.nrw.de" rel="noopener">www.ldi.nrw.de</a>.
+    </p>
+  </div>
+</Base>
+<style>.seite { padding-top: 56px; }</style>

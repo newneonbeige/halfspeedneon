@@ -1,0 +1,49 @@
+name: Aus dem Sheet veröffentlichen
+
+# Täglich 05:00 UTC (6 bzw. 7 Uhr in Berlin) und freitags zusätzlich 10:00 UTC für die Neuerscheinungen.
+on:
+  schedule:
+    - cron: '0 5 * * *'
+    - cron: '0 10 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    outputs:
+      aenderungen: ${{ steps.publish.outputs.aenderungen }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Freigegebene Seiten und Neuerscheinungen aus dem Sheet holen
+        id: publish
+        env:
+          SHEET_CSV_URL_SEITEN: ${{ secrets.SHEET_CSV_URL_SEITEN }}
+          SHEET_CSV_URL_RELEASES: ${{ secrets.SHEET_CSV_URL_RELEASES }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/publish.mjs
+
+      - name: Änderungen committen
+        if: steps.publish.outputs.aenderungen != '0'
+        run: |
+          git config user.name "halfspeedneon-bot"
+          git config user.email "bot@halfspeedneon.com"
+          git add src/content src/data .publish
+          git commit -m "Aus dem Sheet: ${{ steps.publish.outputs.aenderungen }} Änderung(en)"
+          git push
+
+  deploy:
+    needs: publish
+    if: needs.publish.outputs.aenderungen != '0'
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit

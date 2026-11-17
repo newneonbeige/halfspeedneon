@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site, NEUERSCHEINUNGEN } from '../../../site.config.mjs';
+import { releaseWochen, wochenUrl, breadcrumbs } from '../../lib/inhalte.mjs';
+
+const wochen = await releaseWochen();
+const intro = 'Jede Woche die neuen Alben aus Krautrock, Motorik, Psych und Shoegaze – recherchiert, geprüft und mit einem Satz eingeordnet.';
+const ld = { '@context': 'https://schema.org', '@graph': [breadcrumbs([[site.name, '/'], [NEUERSCHEINUNGEN.name, `/${NEUERSCHEINUNGEN.slug}/`]])] };
+---
+<Base title="Neuerscheinungen: Krautrock, Psych, Shoegaze" description={intro} jsonLd={ld} akzent={NEUERSCHEINUNGEN.farbe}>
+  <div class="wrap bereich">
+    <header class="kopf">
+      <p class="eyebrow">Jeden Donnerstag</p>
+      <h1 class="h-xl"><span class="neon">Neuerscheinungen</span></h1>
+      <p class="lead">{intro}</p>
+    </header>
+    {wochen.length > 0 ? (
+      <ul class="wochen">
+        {wochen.map((w) => (
+          <li><a href={wochenUrl(w)}><strong>KW {w.woche}/{w.jahr}</strong><span class="muted">{w.releases.length} {w.releases.length === 1 ? 'Album' : 'Alben'}</span></a></li>
+        ))}
+      </ul>
+    ) : <p class="muted">Die erste Woche erscheint in Kürze.</p>}
+  </div>
+</Base>
+
+<style>
+  .bereich { padding-top: 56px; }
+  .kopf { display: flex; flex-direction: column; gap: 18px; margin-bottom: 48px; }
+  .wochen { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; max-width: var(--lese); }
+  .wochen a { display: flex; justify-content: space-between; padding: 18px 22px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); text-decoration: none; }
+  .wochen a:hover { border-color: var(--akzent); }
+</style>

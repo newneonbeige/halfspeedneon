@@ -1,0 +1,89 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SeitenKarte from '../../components/SeitenKarte.astro';
+import { site, bereichVonTyp, TYPEN } from '../../../site.config.mjs';
+import { alleSeiten, seitenSchema, datumDe, isoTag } from '../../lib/inhalte.mjs';
+
+export async function getStaticPaths() {
+  const seiten = await alleSeiten();
+  return seiten.map((seite) => ({
+    params: { bereich: bereichVonTyp(seite.data.typ).slug, slug: seite.data.slug },
+    props: { seite, alle: seiten },
+  }));
+}
+
+const { seite, alle } = Astro.props;
+const d = seite.data;
+const b = bereichVonTyp(d.typ);
+const { Content } = await render(seite);
+const verwandt = d.verwandt.map((s) => alle.find((x) => x.data.slug === s)).filter(Boolean);
+const geaendert = isoTag(d.aktualisiert) !== isoTag(d.datum);
+---
+<Base title={d.seoTitle} description={d.seoDescription} type="article" jsonLd={seitenSchema(seite)} akzent={b.farbe}>
+  <article class="wrap seite">
+    <nav class="pfad" aria-label="Brotkrumen">
+      <a href="/">{site.name}</a> <span aria-hidden="true">/</span> <a href={`/${b.slug}/`}>{b.name}</a>
+    </nav>
+
+    <header class="lese kopf">
+      <span class="chip">{TYPEN[d.typ]}</span>
+      <h1 class="h-l">{d.titel}</h1>
+      <p class="stand muted">
+        {geaendert ? <>Aktualisiert am <time datetime={isoTag(d.aktualisiert)}>{datumDe(d.aktualisiert)}</time></> : <>Veröffentlicht am <time datetime={isoTag(d.datum)}>{datumDe(d.datum)}</time></>}{' · '}von <a href="/ueber/">{site.autor}</a>
+      </p>
+    </header>
+
+    <section class="lese kurz" aria-label="Kurzantwort">
+      <p class="eyebrow">Kurz gesagt</p>
+      <p class="kurztext">{d.kurzantwort}</p>
+    </section>
+
+    <div class="lese prose">
+      <Content />
+    </div>
+
+    {d.faq.length > 0 && (
+      <section class="lese block" aria-labelledby="faq">
+        <h2 id="faq" class="h-m">Häufige Fragen</h2>
+        <dl class="faq">
+          {d.faq.map((f) => (<><dt>{f.frage}</dt><dd>{f.antwort}</dd></>))}
+        </dl>
+      </section>
+    )}
+
+    {d.quellen.length > 0 && (
+      <section class="lese block" aria-labelledby="quellen">
+        <h2 id="quellen" class="h-m">Quellen</h2>
+        <ol class="quellen">
+          {d.quellen.map((q) => <li><a href={q.url} rel="noopener">{q.titel}</a></li>)}
+        </ol>
+      </section>
+    )}
+
+    {verwandt.length > 0 && (
+      <section class="block" aria-labelledby="weiter">
+        <h2 id="weiter" class="h-m">Weiterlesen</h2>
+        <ul class="karten">{verwandt.map((s) => <SeitenKarte seite={s} />)}</ul>
+      </section>
+    )}
+  </article>
+</Base>
+
+<style>
+  .seite { padding-top: 32px; }
+  .pfad { font-size: 15px; color: var(--muted); }
+  .pfad a { color: var(--muted); }
+  .kopf { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+  .stand { margin: 0; font-size: 15px; }
+  .stand a { color: var(--muted); }
+  .kurz { margin-top: 36px; padding: 22px 24px; border-radius: 14px; background: var(--surface); border-left: 4px solid var(--akzent); }
+  .kurztext { margin: 8px 0 0; font-size: 21px; line-height: 1.5; }
+  .prose { margin-top: 36px; }
+  .block { margin-top: 64px; }
+  .block h2 { margin-bottom: 20px; }
+  .faq dt { font-weight: 700; margin-top: 20px; }
+  .faq dd { margin: 6px 0 0; color: var(--text-soft); }
+  .quellen { padding-left: 22px; color: var(--muted); }
+  .quellen li + li { margin-top: 8px; }
+</style>

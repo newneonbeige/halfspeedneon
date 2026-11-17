@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../../site.config.mjs';
+import { autor, absolut, breadcrumbs } from '../lib/inhalte.mjs';
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'AboutPage', name: `Über ${site.name}`, url: absolut('/ueber/'), about: { '@id': `${site.url}/#organisation` }, author: autor() },
+    breadcrumbs([[site.name, '/'], ['Über', '/ueber/']]),
+  ],
+};
+---
+<Base title={`Über ${site.name}`} description={`Wer hinter ${site.name} steht, wie die Inhalte entstehen und warum es hier keinen Shop gibt.`} jsonLd={ld}>
+  <div class="wrap seite">
+    <header class="lese kopf">
+      <p class="eyebrow">Über</p>
+      <h1 class="h-l">Half Speed <span class="neon">Neon</span></h1>
+    </header>
+    <div class="lese prose">
+      <p>
+        {site.name} erklärt Krautrock, Motorik, Psych-Rock, Shoegaze und das Sammeln von Schallplatten. Auf Deutsch, mit
+        einer kurzen Antwort am Anfang jeder Seite und den Quellen am Ende.
+      </p>
+      <h2>Warum „Half Speed“?</h2>
+      <p>
+        Beim Half-Speed-Mastering wird eine Platte mit halber Geschwindigkeit geschnitten, damit der Schneidstichel
+        genauer arbeiten kann. Langsamer, dafür sorgfältiger: Das ist auch der Anspruch an die Texte hier.
+      </p>
+      <h2>Unabhängig</h2>
+      <p>
+        Hier gibt es keinen Shop, keine Affiliate-Links und keine bezahlten Platzierungen. Wenn eine Seite Preise oder Werte
+        nennt, steht dahinter kein Ankauf- oder Verkaufsinteresse.
+      </p>
+      <h2>Wie die Inhalte entstehen</h2>
+      <p>
+        Jede Seite wird recherchiert, mit Quellen belegt und vor der Veröffentlichung von Hand geprüft. Wo eigene Erfahrung
+        einfließt, etwa aus der eigenen Plattensammlung, steht das dabei. Seiten werden aktualisiert, wenn sich etwas
+        ändert; das Datum oben auf jeder Seite zeigt den Stand.
+      </p>
+      <h2>Wer schreibt</h2>
+      <p>
+        {site.autor}, Plattensammler mit Schwerpunkt auf Krautrock, Neo-Psych und Shoegaze. {site.name} gehört zur selben
+        Familie wie <a href={site.familie.url} rel="noopener">{site.familie.name}</a>.
+      </p>
+      <h2>Fehler gefunden?</h2>
+      <p>Hinweise und Korrekturen gern per E-Mail an <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .seite { padding-top: 56px; }
+  .kopf { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+</style>

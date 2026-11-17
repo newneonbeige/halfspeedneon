@@ -1,0 +1,24 @@
+---
+// Bildmarke: eine Schallplatte von oben – Rillen in Grau, Etikett in Neon.
+interface Props { klein?: boolean }
+const { klein = false } = Astro.props;
+---
+<a href="/" class:list={['logo', { klein }]} aria-label="Half Speed Neon – Startseite">
+  <svg viewBox="0 0 48 48" width={klein ? 30 : 38} height={klein ? 30 : 38} aria-hidden="true">
+    <circle cx="24" cy="24" r="23" fill="#141416" stroke="#2c2c31" />
+    <circle cx="24" cy="24" r="19" fill="none" stroke="#2c2c31" />
+    <circle cx="24" cy="24" r="15.5" fill="none" stroke="#2c2c31" />
+    <circle cx="24" cy="24" r="8" fill="#FF2BD6" />
+    <circle cx="24" cy="24" r="1.6" fill="#0b0b0c" />
+  </svg>
+  <span>Half Speed <b>Neon</b></span>
+</a>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; color: var(--text); }
+  .logo b { color: var(--pink); font-weight: 800; text-shadow: 0 0 16px rgba(255, 43, 214, 0.45); }
+  .logo:hover svg { transform: rotate(-30deg); }
+  svg { transition: transform 0.6s ease; }
+  .klein { font-size: 18px; }
+  @media (prefers-reduced-motion: reduce) { svg { transition: none; } }
+</style>

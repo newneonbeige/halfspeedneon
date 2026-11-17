@@ -1,0 +1,23 @@
+---
+import { bereichVonTyp, TYPEN } from '../../site.config.mjs';
+import { seitenUrl } from '../lib/inhalte.mjs';
+interface Props { seite: any }
+const { seite } = Astro.props;
+const b = bereichVonTyp(seite.data.typ);
+---
+<li class="karte" style={`--akzent:${b.farbe}`}>
+  <a href={seitenUrl(seite)}>
+    <span class="chip">{TYPEN[seite.data.typ]}</span>
+    <h3>{seite.data.titel}</h3>
+    <p>{seite.data.kurzantwort}</p>
+  </a>
+</li>
+
+<style>
+  .karte a { display: flex; flex-direction: column; gap: 12px; height: 100%; padding: 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+  .karte a:hover { border-color: var(--akzent); transform: translateY(-2px); color: var(--text); }
+  h3 { font-size: 22px; }
+  p { margin: 0; color: var(--text-soft); font-size: 16px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .chip { align-self: flex-start; }
+  @media (prefers-reduced-motion: reduce) { .karte a { transition: none; } }
+</style>

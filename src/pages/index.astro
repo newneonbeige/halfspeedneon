@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import SeitenKarte from '../components/SeitenKarte.astro';
+import { site, bereiche, NEUERSCHEINUNGEN } from '../../site.config.mjs';
+import { alleSeiten, releaseWochen, wochenUrl } from '../lib/inhalte.mjs';
+
+const seiten = await alleSeiten();
+const neueste = seiten.slice(0, 6);
+const [woche] = await releaseWochen();
+const anzahl = Object.fromEntries(bereiche.map((b) => [b.slug, seiten.filter((s) => b.typen.includes(s.data.typ)).length]));
+---
+<Base title={`${site.name} – Motorik, Psych, Shoegaze und Vinyl erklärt`} description={site.description}>
+  <section class="wrap held">
+    <p class="eyebrow">Unabhängiges Wissensportal</p>
+    <h1 class="h-xl">Motorik, Psych, Shoegaze<br />und <span class="neon">Vinyl</span>.</h1>
+    <p class="lead">Begriffe, Szene, Labels und Sammlerwissen – auf Deutsch, mit Quellen und ohne Shop im Hintergrund. Dazu jede Woche die Neuerscheinungen.</p>
+  </section>
+
+  <section class="wrap" aria-label="Bereiche">
+    <ul class="bereiche">
+      {bereiche.map((b) => (
+        <li style={`--akzent:${b.farbe}`}>
+          <a href={`/${b.slug}/`}>
+            <span class="name">{b.name}</span>
+            <span class="intro">{b.intro}</span>
+            <span class="zahl">{anzahl[b.slug] ? `${anzahl[b.slug]} ${anzahl[b.slug] === 1 ? 'Seite' : 'Seiten'}` : 'bald'}</span>
+          </a>
+        </li>
+      ))}
+      <li style={`--akzent:${NEUERSCHEINUNGEN.farbe}`}>
+        <a href={woche ? wochenUrl(woche) : `/${NEUERSCHEINUNGEN.slug}/`}>
+          <span class="name">Neue Alben</span>
+          <span class="intro">Jede Woche die neuen Alben aus Krautrock, Motorik, Psych und Shoegaze.</span>
+          <span class="zahl">{woche ? `KW ${woche.woche}/${woche.jahr}` : 'bald'}</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  {neueste.length > 0 && (
+    <section class="wrap neu" aria-labelledby="neu">
+      <h2 id="neu" class="h-m">Neu und aktualisiert</h2>
+      <ul class="karten">{neueste.map((s) => <SeitenKarte seite={s} />)}</ul>
+    </section>
+  )}
+</Base>
+
+<style>
+  .held { padding-top: 80px; padding-bottom: 64px; display: flex; flex-direction: column; gap: 24px; }
+  .bereiche { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+  .bereiche a { display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--akzent); text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+  .bereiche a:hover { transform: translateY(-3px); box-shadow: 0 10px 40px -18px var(--akzent); color: var(--text); }
+  .name { font-family: var(--display); font-weight: 800; font-size: clamp(21px, 2vw, 26px); color: var(--akzent); overflow-wrap: break-word; }
+  .intro { color: var(--text-soft); font-size: 15px; line-height: 1.5; flex: 1; }
+  .zahl { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .neu { margin-top: 88px; }
+  .neu h2 { margin-bottom: 24px; }
+  @media (prefers-reduced-motion: reduce) { .bereiche a { transition: none; } }
+</style>

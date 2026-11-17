@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site, NEUERSCHEINUNGEN } from '../../../site.config.mjs';
+import { releaseWochen, wochenUrl, breadcrumbs, absolut, datumDe, isoTag } from '../../lib/inhalte.mjs';
+
+export async function getStaticPaths() {
+  const wochen = await releaseWochen();
+  return wochen.map((w, i) => ({ params: { woche: w.slug }, props: { w, neuer: wochen[i - 1], aelter: wochen[i + 1] } }));
+}
+
+const { w, neuer, aelter } = Astro.props;
+const titel = `Neue Alben KW ${w.woche}/${w.jahr}: Krautrock, Psych, Shoegaze`;
+const kuenstler = w.releases.slice(0, 4).map((r) => r.kuenstler).join(', ');
+const beschreibung = `${w.releases.length} neue Alben aus Krautrock, Motorik, Psych und Shoegaze in KW ${w.woche}/${w.jahr}, u. a. von ${kuenstler}.`.slice(0, 165);
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ItemList',
+      name: titel,
+      url: absolut(wochenUrl(w)),
+      numberOfItems: w.releases.length,
+      itemListElement: w.releases.map((r, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'MusicAlbum',
+          name: r.album,
+          byArtist: { '@type': 'MusicGroup', name: r.kuenstler },
+          datePublished: isoTag(r.datum),
+          ...(r.genre && { genre: r.genre }),
+          ...(r.notiz && { description: r.notiz }),
+          ...(r.link && { url: r.link }),
+        },
+      })),
+    },
+    breadcrumbs([[site.name, '/'], [NEUERSCHEINUNGEN.name, `/${NEUERSCHEINUNGEN.slug}/`], [`KW ${w.woche}/${w.jahr}`, wochenUrl(w)]]),
+  ],
+};
+---
+<Base title={titel} description={beschreibung} type="article" jsonLd={ld} akzent={NEUERSCHEINUNGEN.farbe}>
+  <div class="wrap woche">
+    <nav class="pfad" aria-label="Brotkrumen"><a href="/">{site.name}</a> / <a href={`/${NEUERSCHEINUNGEN.slug}/`}>{NEUERSCHEINUNGEN.name}</a></nav>
+    <header class="kopf lese">
+      <span class="chip">Neuerscheinungen</span>
+      <h1 class="h-l">Neue Alben in KW {w.woche}/{w.jahr}</h1>
+      <p class="lead">{w.releases.length} {w.releases.length === 1 ? 'Album' : 'Alben'} aus Krautrock, Motorik, Psych und Shoegaze.</p>
+    </header>
+    <ol class="liste lese">
+      {w.releases.map((r) => (
+        <li>
+          <p class="kopfzeile"><strong>{r.kuenstler}</strong> – <em>{r.link ? <a href={r.link} rel="noopener">{r.album}</a> : r.album}</em></p>
+          <p class="meta muted">{[datumDe(r.datum), r.label, r.genre, r.format, r.land].filter(Boolean).join(' · ')}</p>
+          {r.notiz && <p class="notiz">{r.notiz}</p>}
+        </li>
+      ))}
+    </ol>
+    <nav class="blaettern lese" aria-label="Weitere Wochen">
+      {aelter ? <a href={wochenUrl(aelter)}>← KW {aelter.woche}/{aelter.jahr}</a> : <span />}
+      {neuer && <a href={wochenUrl(neuer)}>KW {neuer.woche}/{neuer.jahr} →</a>}
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .woche { padding-top: 32px; }
+  .pfad, .pfad a { font-size: 15px; color: var(--muted); }
+  .kopf { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+  .liste { list-style: none; padding: 0; margin: 48px 0 0; display: grid; gap: 14px; }
+  .liste li { padding: 20px 22px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+  .liste p { margin: 0; }
+  .kopfzeile { font-size: 20px; }
+  .meta { font-size: 15px; margin-top: 4px !important; }
+  .notiz { margin-top: 10px !important; color: var(--text-soft); }
+  .blaettern { display: flex; justify-content: space-between; margin-top: 40px; }
+</style>

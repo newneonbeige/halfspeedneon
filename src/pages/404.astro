@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { bereiche } from '../../site.config.mjs';
+---
+<Base title="Seite nicht gefunden" description="Diese Seite gibt es nicht." noindex>
+  <div class="wrap lese seite">
+    <p class="eyebrow">404</p>
+    <h1 class="h-l">Hier läuft nur noch die <span class="neon">Auslaufrille</span>.</h1>
+    <p class="lead">Diese Seite gibt es nicht (mehr). Vielleicht hilft einer der Bereiche weiter:</p>
+    <ul>{bereiche.map((b) => <li><a href={`/${b.slug}/`}>{b.name}</a></li>)}</ul>
+  </div>
+</Base>
+<style>.seite { padding-top: 72px; display: flex; flex-direction: column; gap: 20px; }</style>

@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../../site.config.mjs';
+const { autor, email, anschrift } = site;
+---
+<Base title="Impressum" description={`Impressum von ${site.name}`} noindex>
+  <div class="wrap prose lese seite">
+    <h1 class="h-l">Impressum</h1>
+
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <p>{autor}<br />{anschrift.strasse}<br />{anschrift.plz} {anschrift.ort}<br />Deutschland</p>
+
+    <h2>Kontakt</h2>
+    <p>E-Mail: <a href={`mailto:${email}`}>{email}</a></p>
+
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>{autor}<br />{anschrift.strasse}<br />{anschrift.plz} {anschrift.ort}</p>
+
+    <h2>Haftung für Links</h2>
+    <p>
+      Diese Website enthält Links zu externen Websites, etwa zu Quellen, Labels und Plattformen. Auf deren Inhalte habe ich
+      keinen Einfluss; für sie ist der jeweilige Anbieter verantwortlich. Werden mir Rechtsverletzungen bekannt, entferne
+      ich die betreffenden Links umgehend.
+    </p>
+
+    <h2>Urheberrecht</h2>
+    <p>
+      Die Texte auf dieser Website sind urheberrechtlich geschützt. Zitieren mit Quellenangabe und Link ist ausdrücklich
+      erwünscht. Jede darüber hinausgehende Nutzung, insbesondere eine kommerzielle, bedarf der vorherigen Zustimmung.
+      Albumcover und Markenzeichen werden auf dieser Website nicht abgebildet.
+    </p>
+  </div>
+</Base>
+<style>.seite { padding-top: 56px; }</style>

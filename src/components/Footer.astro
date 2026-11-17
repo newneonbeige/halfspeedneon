@@ -1,0 +1,31 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../../site.config.mjs';
+const jahr = new Date().getFullYear();
+---
+<footer class="fuss">
+  <div class="wrap innen">
+    <div class="marke">
+      <Logo klein />
+      <p class="muted">Unabhängig. Kein Shop, keine Affiliate-Links, keine bezahlten Platzierungen.</p>
+    </div>
+    <nav aria-label="Über und Rechtliches">
+      <a href="/ueber/">Über Half Speed Neon</a>
+      <a href="/rss.xml">RSS</a>
+      <a href={site.familie.url} rel="noopener">{site.familie.name}</a>
+      <a href="/impressum/">Impressum</a>
+      <a href="/datenschutz/">Datenschutz</a>
+    </nav>
+    <p class="copy muted">© {jahr} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .fuss { border-top: 1px solid var(--line); margin-top: 96px; background: var(--surface); }
+  .innen { padding-top: 40px; padding-bottom: 40px; display: grid; gap: 24px; grid-template-columns: 1fr auto; align-items: start; }
+  .marke p { margin: 12px 0 0; font-size: 15px; max-width: 380px; }
+  nav { display: flex; flex-wrap: wrap; gap: 20px; font-size: 15px; }
+  nav a { color: var(--text-soft); }
+  .copy { margin: 0; font-size: 14px; grid-column: 1 / -1; }
+  @media (max-width: 760px) { .innen { grid-template-columns: 1fr; } }
+</style>

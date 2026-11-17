@@ -1,0 +1,28 @@
+{
+  "name": "halfspeedneon",
+  "version": "0.1.0",
+  "description": "Website halfspeedneon.com – Wissensportal zu Motorik, Psych, Shoegaze und Vinyl",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "publish": "node scripts/publish.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
+    "og": "node scripts/render-og.mjs",
+    "demo": "node scripts/publish.mjs --seiten examples/seiten-beispiel.csv --releases examples/releases-beispiel.csv"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/bricolage-grotesque": "^5.3.0",
+    "@fontsource/instrument-sans": "^5.3.0",
+    "astro": "^7.4.4",
+    "csv-parse": "^7.0.3",
+    "sharp": "^0.34.5"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  }
+}
