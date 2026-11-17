@@ -29,6 +29,16 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Legt das Pages-Projekt beim allerersten Lauf an; danach meldet der Schritt nur „existiert schon“.
+      - name: Pages-Projekt anlegen (falls noch nicht vorhanden)
+        uses: cloudflare/wrangler-action@v3
+        continue-on-error: true
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          command: pages project create halfspeedneon --production-branch=main
+
       - name: Auf Cloudflare Pages veröffentlichen
         uses: cloudflare/wrangler-action@v3
         with:
