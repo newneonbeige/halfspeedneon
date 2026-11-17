@@ -30,11 +30,13 @@ Den Namen haben Musikjournalisten geprägt. Klaus Dinger selbst sprach lieber vo
 
 ## Wo man ihn hört
 
-- Neu! – „Hallogallo“ (1972)
-- Can – „Mother Sky“ (1970)
-- Kraftwerk – ein Abschnitt von „Autobahn“ (1974)
+- Neu! – „Hallogallo“ (1972) · [Bandcamp](https://neumusic.bandcamp.com/track/hallogallo) · [Spotify](https://open.spotify.com/track/4NbIe1w78zaCY3lWZa17ZI) · [Apple Music](https://music.apple.com/de/album/hallogallo/1321979694?i=1321979900)
+- Can – „Mother Sky“ (1970) · [Bandcamp](https://canofficial.bandcamp.com/track/mother-sky-from-the-movie-deep-end) · [Spotify](https://open.spotify.com/track/5iJGuQRdog5ZUqhMgOFDVw) · [Apple Music](https://music.apple.com/de/album/mother-sky/1675995168?i=1675995544)
+- Kraftwerk – ein Abschnitt von „Autobahn“ (1974) · [Spotify](https://open.spotify.com/track/7e2ExzCUgjOntmlZCTDSWk) · [Apple Music](https://music.apple.com/de/album/autobahn/693110726?i=693110993)
 - später u. a. Stereolab
 
 ## Eigene Hörempfehlung
 
 Und mit später fangen wir an. Zum Einstieg empfehle ich vom 1993er Album "Transient Random-Noise Bursts With Announcements" der Gruppe Stereolab den Track "Jenny Ondioline"
+
+Anhören: [Bandcamp](https://stereolab.bandcamp.com/track/jenny-ondioline-2) · [Spotify](https://open.spotify.com/track/2DMZvrvsxEPEN6OmwYis6h) · [Apple Music](https://music.apple.com/de/album/jenny-ondioline/1231426759?i=1231426998)
