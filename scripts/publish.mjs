@@ -40,6 +40,14 @@ const dryRun = args.includes('--dry-run');
 const heute = new Date().toISOString().slice(0, 10);
 const normal = (s) => String(s ?? '').toLowerCase().trim();
 
+/** Nimmt JJJJ-MM-TT oder TT.MM.JJJJ (Google-Sheets-Anzeige im deutschen Format) und gibt JJJJ-MM-TT zurück. */
+function isoDatum(wert) {
+  const w = String(wert ?? '').trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(w)) return w;
+  const m = w.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  return m ? `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : '';
+}
+
 async function ladeCsv(dateiArg, envName) {
   const datei = arg(dateiArg);
   if (datei) return readFile(path.resolve(datei), 'utf8');
@@ -108,7 +116,7 @@ async function seiten(csv, neueUrls) {
       kurzantwort: z.kurzantwort,
       seoTitle: seo.seoTitle,
       seoDescription: seo.seoDescription,
-      datum: z.datum || alt?.datum || heute,
+      datum: isoDatum(z.datum) || alt?.datum || heute,
       aktualisiert: '__AKTUALISIERT__',
       verwandt: z.verwandt ? z.verwandt.split(/[,;]/).map((s) => slugify(s.trim(), 7)).filter(Boolean) : undefined,
       fragen: z.fragen || undefined,
@@ -132,7 +140,9 @@ async function seiten(csv, neueUrls) {
 }
 
 async function releases(csv, neueUrls) {
-  const zeilen = zeilenAus(csv).filter((z) => normal(z.status) === 'freigegeben' && z.kuenstler && z.album && /^\d{4}-\d{2}-\d{2}$/.test(z.datum ?? ''));
+  const alle = zeilenAus(csv).map((z) => ({ ...z, datum: isoDatum(z.datum) }));
+  for (const z of alle) if (normal(z.status) === 'freigegeben' && !z.datum) console.warn(`  ⚠ Übersprungen – Datum fehlt oder unlesbar: ${z.kuenstler} – ${z.album}`);
+  const zeilen = alle.filter((z) => normal(z.status) === 'freigegeben' && z.kuenstler && z.album && z.datum);
   const liste = zeilen.map((z) => ({
     id: slugify(`${z.datum} ${z.kuenstler} ${z.album}`, 12),
     datum: z.datum,
