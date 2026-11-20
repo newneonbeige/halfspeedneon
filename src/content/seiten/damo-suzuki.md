@@ -2,9 +2,9 @@
 titel: "Damo Suzuki: von Can zum Network"
 slug: "damo-suzuki"
 typ: "szene"
-kurzantwort: "Damo Suzuki (1950–2024) war ein japanischer Musiker und von 1970 bis 1973 Sänger der Kölner Krautrock-Band Can, zu hören auf *Tago Mago*, *Ege Bamyasi* und *Future Days*. Ab den 1980ern tourte er weltweit mit wechselnden lokalen Musikern, seinen „Sound Carriers“, und improvisierte jedes Konzert neu. Diese Projekte fasste er als „Damo Suzuki's Network“ zusammen."
-seoTitle: "Damo Suzuki: Can-Sänger und das Network im Überblick"
-seoDescription: "Damo Suzuki (1950–2024) war von 1970 bis 1973 Sänger von Can und improvisierte später mit wechselnden Musikern im Network. Mit Einordnung der Alben."
+kurzantwort: "Damo Suzuki (1950–2024) war ein japanischer Musiker und von 1970 bis 1973 Sänger der Kölner Krautrock-Band Can, zu hören auf „Tago Mago“, „Ege Bamyasi“ und „Future Days“. Ab den 1980ern tourte er weltweit mit wechselnden lokalen Musikern, seinen „Sound Carriers“, und improvisierte jedes Konzert neu. Diese Projekte fasste er als „Damo Suzuki's Network“ zusammen."
+seoTitle: "Damo Suzuki: Can-Sänger und Damo Suzuki's Network"
+seoDescription: "Damo Suzuki (1950–2024) sang 1970–1973 bei Can, u. a. auf „Tago Mago“. Ab den 1980ern improvisierte er weltweit mit lokalen Musikern im „Network“."
 datum: "2026-11-20"
 aktualisiert: "2026-11-20"
 verwandt: ["motorik-beat", "fuzz-club-label"]
