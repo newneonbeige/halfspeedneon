@@ -18,6 +18,25 @@ quellen:
     url: "https://en.wikipedia.org/wiki/Motorik"
   - titel: "Wikipedia: Neu! (Album)"
     url: "https://en.wikipedia.org/wiki/Neu!_(album)"
+entitaeten:
+  - name: "Klaus Dinger"
+    typ: "Person"
+    url: "https://en.wikipedia.org/wiki/Klaus_Dinger"
+  - name: "Jaki Liebezeit"
+    typ: "Person"
+    url: "https://en.wikipedia.org/wiki/Jaki_Liebezeit"
+  - name: "Neu!"
+    typ: "MusicGroup"
+    url: "https://en.wikipedia.org/wiki/Neu!"
+  - name: "Can"
+    typ: "MusicGroup"
+    url: "https://en.wikipedia.org/wiki/Can_(band)"
+  - name: "Kraftwerk"
+    typ: "MusicGroup"
+    url: "https://en.wikipedia.org/wiki/Kraftwerk"
+  - name: "Stereolab"
+    typ: "MusicGroup"
+    url: "https://en.wikipedia.org/wiki/Stereolab"
 ---
 
 ## Wie der Beat klingt
