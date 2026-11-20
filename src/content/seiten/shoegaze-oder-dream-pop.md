@@ -3,10 +3,10 @@ titel: "Shoegaze oder Dream Pop? Der Unterschied"
 slug: "shoegaze-oder-dream-pop"
 typ: "begriff"
 kurzantwort: "Shoegaze ist laut und gitarrenlastig: verzerrte, mit Effekten geschichtete Gitarren bilden eine Klangwand, in der auch der Gesang versinkt. Dream Pop ist leiser und luftiger: Hall und Echo schaffen Atmosphäre, Melodie und Stimme bleiben hörbar. Die Grenze ist fließend, viele Bands werden beiden Stilen zugeordnet."
-seoTitle: "Shoegaze oder Dream Pop? Der Unterschied"
-seoDescription: "Shoegaze ist laut und gitarrenlastig: verzerrte, mit Effekten geschichtete Gitarren bilden eine Klangwand, in der auch der Gesang versinkt. Dream Pop ist…"
+seoTitle: "Shoegaze vs. Dream Pop: Was ist der Unterschied?"
+seoDescription: "Shoegaze ist laut, mit Gitarren als Klangwand, in der der Gesang versinkt. Dream Pop ist leiser und luftiger. Und warum die Grenze fließend ist."
 datum: "2026-11-18"
-aktualisiert: "2026-11-18"
+aktualisiert: "2026-11-20"
 verwandt: ["wall-of-sound-im-shoegaze"]
 fragen: "5"
 faq:
