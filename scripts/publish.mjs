@@ -106,7 +106,9 @@ async function seiten(csv, neueUrls) {
     if (!z.titel || !z.kurzantwort || !z.text) { console.warn(`  ⚠ Übersprungen – titel, kurzantwort und text sind Pflicht: ${z.titel || slug}`); continue; }
 
     const alt = await bestehend(datei);
-    const metaGleich = alt && alt.titel === z.titel && alt.kurzantwort === z.kurzantwort && alt.seoTitle;
+    // Beschreibungen aus der Vorlage (ohne API-Schlüssel entstanden, enden auf „…“) werden neu erzeugt, sobald ein Schlüssel da ist
+    const ausVorlage = Boolean(process.env.ANTHROPIC_API_KEY) && String(alt?.seoDescription ?? '').endsWith('…');
+    const metaGleich = alt && alt.titel === z.titel && alt.kurzantwort === z.kurzantwort && alt.seoTitle && !ausVorlage;
     const seo = metaGleich ? { seoTitle: alt.seoTitle, seoDescription: alt.seoDescription, quelle: 'unverändert' } : await seoFelder({ titel: z.titel, typ: TYPEN[typ], kurzantwort: z.kurzantwort });
 
     const felder = {
