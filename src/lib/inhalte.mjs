@@ -82,6 +82,12 @@ export function seitenSchema(seite) {
   const b = bereichVonTyp(d.typ);
   const url = absolut(seitenUrl(seite));
   const graph = [];
+  const entitaet = (e) => ({ '@type': e.typ || 'Thing', name: e.name, sameAs: e.url });
+  const haupt = d.entitaeten.find((e) => e.haupt);
+  const labelName = d.titel.replace(/[:–—].*$/, '').trim();
+  const labelEntitaet = d.typ === 'label' && d.entitaeten.find((e) => e.name.toLowerCase() === labelName.toLowerCase());
+  const hauptAlsAbout = haupt && d.typ !== 'begriff' && d.typ !== 'label';
+  const erwaehnt = d.entitaeten.filter((e) => e !== labelEntitaet && !(hauptAlsAbout && e === haupt));
 
   if (d.typ === 'begriff') {
     graph.push({
@@ -105,8 +111,10 @@ export function seitenSchema(seite) {
     author: autor(),
     publisher: { '@id': `${site.url}/#organisation` },
     isPartOf: { '@type': 'WebSite', '@id': `${site.url}/#website` },
-    ...(d.typ === 'label' && { about: { '@type': 'Organization', name: d.titel.replace(/[:–—].*$/, '').trim() } }),
+    ...(d.typ === 'label' && { about: labelEntitaet ? { ...entitaet(labelEntitaet), '@type': 'Organization' } : { '@type': 'Organization', name: labelName } }),
     ...(d.typ === 'begriff' && { about: { '@id': `${url}#begriff` } }),
+    ...(hauptAlsAbout && { about: entitaet(haupt) }),
+    ...(erwaehnt.length && { mentions: erwaehnt.map(entitaet) }),
     ...(d.quellen.length && { citation: d.quellen.map((q) => ({ '@type': 'CreativeWork', name: q.titel, url: q.url })) }),
   });
   const faq = faqSchema(d.faq);

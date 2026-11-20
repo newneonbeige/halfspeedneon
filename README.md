@@ -55,6 +55,7 @@ Dazu: `/llms.txt` (Übersicht für Sprachmodelle), `robots.txt` mit ausdrücklic
 | `quellen` | optional, je Zeile `Titel \| https://…` |
 | `verwandt` | optional, Slugs anderer Seiten, kommagetrennt |
 | `fragen` | optional, Nummern aus der Nullmessung (intern) |
+| `entitaeten` | optional, je Zeile `Name \| Typ \| https://…` (Typ: `Person`, `MusicGroup`, `Organization`, `MusicAlbum`, `Place`, `Event`; `*` vor dem Namen = Hauptthema). Erscheint nicht im Text, nur als Schema.org `about`/`mentions` mit `sameAs` |
 | `datum` | optional, Erstveröffentlichung `JJJJ-MM-TT` |
 | `notiz` | intern, wird nicht veröffentlicht |
 

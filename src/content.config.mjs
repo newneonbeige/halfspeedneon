@@ -18,6 +18,8 @@ const seiten = defineCollection({
     faq: z.array(z.object({ frage: z.string(), antwort: z.string() })).default([]),
     quellen: z.array(z.object({ titel: z.string(), url: z.string().url() })).default([]),
     verwandt: z.array(z.string()).default([]),
+    // Personen, Bands, Labels usw., die auf der Seite vorkommen – nur für Schema.org (mentions/about mit sameAs)
+    entitaeten: z.array(z.object({ name: z.string(), typ: z.string().default('Thing'), url: z.string().url(), haupt: z.boolean().default(false) })).default([]),
     fragen: z.string().optional(), // Fragen-Nummern aus der Nullmessung, nur intern
   }),
 });

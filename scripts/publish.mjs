@@ -15,6 +15,8 @@
 //   faq         optional, je Zeile:  Frage | Antwort
 //   quellen     optional, je Zeile:  Titel | https://…   (oder nur die URL)
 //   verwandt    optional, Slugs anderer Seiten, kommagetrennt
+//   entitaeten  optional, je Zeile:  Name | Typ | https://…wikipedia…   (Typ: Person, MusicGroup, Organization, MusicAlbum, Place, Event;
+//               ein * vor dem Namen markiert das Hauptthema der Seite). Wird nur als Schema.org (mentions/about mit sameAs) ausgegeben.
 //   fragen      optional, Nummern aus der Nullmessung (nur intern)
 //   datum       optional, Erstveröffentlichung JJJJ-MM-TT (sonst heute)
 //
@@ -83,6 +85,20 @@ async function bestehend(datei) {
   return { inhalt, datum: feld('datum'), titel: feld('titel'), kurzantwort: feld('kurzantwort'), seoTitle: feld('seoTitle'), seoDescription: feld('seoDescription'), aktualisiert: feld('aktualisiert') };
 }
 
+const ENTITAET_TYPEN = ['Person', 'MusicGroup', 'Organization', 'MusicAlbum', 'MusicRecording', 'Place', 'Event'];
+function entitaetenAus(zelle) {
+  return String(zelle ?? '').split(/\r?\n/).map((z) => z.trim()).filter(Boolean).map((z) => {
+    const teile = z.split('|').map((t) => t.trim()).filter(Boolean);
+    const url = teile.find((t) => /^https?:\/\//.test(t));
+    const typ = teile.find((t) => ENTITAET_TYPEN.includes(t)) ?? 'Thing';
+    let name = teile.find((t) => t !== url && t !== typ);
+    if (!name || !url) { console.warn(`  ⚠ Entität übersprungen (Name und URL nötig): ${z}`); return null; }
+    const haupt = name.startsWith('*');
+    name = name.replace(/^\*\s*/, '');
+    return { name, typ, url, ...(haupt && { haupt: true }) };
+  }).filter(Boolean);
+}
+
 async function seiten(csv, neueUrls) {
   const zeilen = zeilenAus(csv);
   let neu = 0, geaendert = 0, entfernt = 0;
@@ -125,8 +141,9 @@ async function seiten(csv, neueUrls) {
     };
     const faq = faqAus(z.faq);
     const quellen = quellenAus(z.quellen);
+    const entitaeten = entitaetenAus(z.entitaeten);
     const yamlListe = (name, liste) => liste.length ? `${name}:\n${liste.map((o) => '  - ' + Object.entries(o).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join('\n    ')).join('\n')}\n` : '';
-    const bauen = (akt) => frontmatter({ ...felder, aktualisiert: akt }).replace(/---\n$/, yamlListe('faq', faq) + yamlListe('quellen', quellen) + '---\n') + `\n${z.text.trim()}\n`;
+    const bauen = (akt) => frontmatter({ ...felder, aktualisiert: akt }).replace(/---\n$/, yamlListe('faq', faq) + yamlListe('quellen', quellen) + yamlListe('entitaeten', entitaeten) + '---\n') + `\n${z.text.trim()}\n`;
 
     // Nur als „aktualisiert“ zählen, wenn sich wirklich etwas am Inhalt geändert hat
     const kandidat = bauen(alt?.aktualisiert ?? heute);
