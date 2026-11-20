@@ -34,14 +34,16 @@ export async function seoFelder(eingabe) {
       },
       body: JSON.stringify({
         model: process.env.CLAUDE_MODEL || 'claude-sonnet-5-5',
-        max_tokens: 400,
+        max_tokens: 2000,
         messages: [{ role: 'user', content: PROMPT(eingabe) }],
       }),
     });
     if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
     const data = await res.json();
-    const roh = data.content?.map((c) => c.text ?? '').join('') ?? '';
-    const json = JSON.parse(roh.slice(roh.indexOf('{'), roh.lastIndexOf('}') + 1));
+    const roh = (data.content ?? []).filter((c) => c.type === 'text').map((c) => c.text).join('');
+    const start = roh.indexOf('{'), ende = roh.lastIndexOf('}');
+    if (start < 0 || ende < start) throw new Error(`kein JSON in der Antwort (stop_reason ${data.stop_reason}, Blöcke ${(data.content ?? []).map((c) => c.type).join('/') || 'keine'}): ${roh.slice(0, 80)}`);
+    const json = JSON.parse(roh.slice(start, ende + 1));
     return {
       seoTitle: kuerzen(json.seoTitle || fallback.seoTitle, 60),
       seoDescription: kuerzen(json.seoDescription || fallback.seoDescription, 155),
